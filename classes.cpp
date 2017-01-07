@@ -5,7 +5,6 @@
 using namespace std;
 
 
-
 //define Person class
 int Person::numberOfPersons = 0;
 
@@ -34,7 +33,7 @@ Person::Person(string name, string lastname, int age, string email):Person::Pers
 
 //destructor
 Person::~Person(){
-    cout<<this->GetFullName()<<" Destroyed!"<<endl;
+    //cout<<this->GetFullName()<<" Destroyed!"<<endl;
 };
 
 // methods
