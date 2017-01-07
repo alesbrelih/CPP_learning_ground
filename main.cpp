@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "sqlite3.h"
+
+
 
 
 using namespace std;
@@ -36,6 +39,8 @@ int main()
 
     cout<<"Do you wish to create a new person? [y/n]"<<endl;
     cin>>userInput;
+
+    //transform to lowercase
     transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
 
     //user chose to create a new person
