@@ -34,6 +34,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="classes.cpp" />
+		<Unit filename="headers/classes.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
