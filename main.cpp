@@ -4,37 +4,41 @@
 #include <vector>
 #include <algorithm>
 #include "sqlite3.h"
+#include "db_connect.h"
 
-
-
-
+//namespace
 using namespace std;
 
+//address for db
+const string current_address = "/home/ales/Databases/sqlite/spaceinvaders/spaceInvaders.db";
+
+
+//main fnc
 int main()
 {
     string userInput;
 
     //initialize list of persons
-    vector<Person> persons;
+    vector<Person> players;
 
     //create persons
     Person marjan; // no parentheses because else compiler thinks we are defining a function
-    Person ales("Ales","Brelih",27,"krneki07@gmail.com");
+    Person ales(1,"Ales","Brelih",27,"ljiech","E7x0j225","krneki07@gmail.com");
 
     //number of persons
     cout<<"Number of persons: "<<Person::GetNumberOfPersons()<<". "<<endl;
 
     //add them to vector
-    persons.push_back(marjan);
-    persons.push_back(ales);
+    players.push_back(marjan);
+    players.push_back(ales);
 
-    cout<<"Vector size: "<<persons.size()<<endl;
+    cout<<"Vector size: "<<players.size()<<endl;
 
     //introduce each
     //using unsigned because this iteration
     //will always have positive iteration nubers
-    for(unsigned int i = 0;i<persons.size();i++){
-        persons[i].Introduce();
+    for(unsigned int i = 0;i<players.size();i++){
+        players[i].Introduce();
     }
 
     cout<<"Do you wish to create a new person? [y/n]"<<endl;
@@ -80,10 +84,10 @@ int main()
         if(userInput == "y"){
 
             //create user
-            Person newUser(name,lastname,age,email);
+            Person newUser(1,name,lastname,age,"baka","babo",email);
 
             //add to vector
-            persons.push_back(newUser);
+            players.push_back(newUser);
 
             //introduce new user
             newUser.Introduce();
@@ -92,10 +96,26 @@ int main()
             cout<<"Number of persons: "<<Person::GetNumberOfPersons()<<endl;
 
             //size of vector
-            cout<<"Size of vector: "<<persons.size()<<endl;
+            cout<<"Size of vector: "<<players.size()<<endl;
         }
 
 
+    }
+
+    //set db connection address
+    Db_Connect spaceInvaderDb(current_address);
+
+    //connects to db
+    bool connectedToDb = spaceInvaderDb.Connect();
+
+    if(connectedToDb){
+        cout<<"Connected to db"<<endl;
+        players = spaceInvaderDb.GetDbPersons();
+
+        int players_count = players.size();
+        for(int i = 0;i<players_count;i++){
+            players[i].Introduce();
+        }
     }
 
 

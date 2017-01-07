@@ -1,29 +1,37 @@
 # depslib dependency file v1.0
-1483804245 source:/home/ales/Documents/C++ Playground/CPP_Console_App_Learning/main.cpp
+1483820453 source:/home/ales/Documents/C++ Playground/CPP_Console_App_Learning/main.cpp
 	<iostream>
 	"headers/classes.h"
 	<string>
 	<vector>
 	<algorithm>
 	"sqlite3.h"
+	"db_connect.h"
 
-1483796463 source:/home/ales/Documents/C++ Playground/CPP_Console_App_Learning/classes.cpp
+1483820167 source:/home/ales/Documents/C++ Playground/CPP_Console_App_Learning/classes.cpp
 	<iostream>
 	"headers/classes.h"
+	<vector>
+	<string>
+	<algorithm>
 
-1483802603 /home/ales/Documents/C++ Playground/CPP_Console_App_Learning/headers/classes.h
+1483818120 /home/ales/Documents/C++ Playground/CPP_Console_App_Learning/headers/classes.h
 	<string>
 
-1483806814 source:/home/ales/Documents/C++ Playground/CPP_Console_App_Learning/db_connect.cpp
+1483820646 source:/home/ales/Documents/C++ Playground/CPP_Console_App_Learning/db_connect.cpp
 	"sqlite3.h"
 	<string>
 	"db_connect.h"
 	<iostream>
+	"headers/classes.h"
+	<vector>
 
 1436983190 /usr/include/sqlite3.h
 	<stdarg.h>
 
-1483806520 /home/ales/Documents/C++ Playground/CPP_Console_App_Learning/db_connect.h
+1483812300 /home/ales/Documents/C++ Playground/CPP_Console_App_Learning/db_connect.h
 	<string>
 	"sqlite3.h"
+	<vector>
+	"headers/classes.h"
 

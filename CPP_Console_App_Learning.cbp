@@ -9,12 +9,16 @@
 			<Target title="Debug">
 				<Option output="bin/Debug/CPP_Console_App_Learning" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
+				<Option external_deps="/usr/include/sqlite3.h;" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="/usr/include" />
 				</Compiler>
+				<Linker>
+					<Add library="sqlite3" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/CPP_Console_App_Learning" prefix_auto="1" extension_auto="1" />
@@ -34,6 +38,8 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="classes.cpp" />
+		<Unit filename="db_connect.cpp" />
+		<Unit filename="db_connect.h" />
 		<Unit filename="headers/classes.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>

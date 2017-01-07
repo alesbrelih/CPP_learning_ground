@@ -3,6 +3,8 @@
 
 #include <string>
 #include "sqlite3.h"
+#include <vector>
+#include "headers/classes.h"
 
 using namespace std;
 
@@ -38,6 +40,12 @@ class Db_Connect{
 
         //disconnect
         void Disconnect();
+
+
+        // ---- MANIPULATING DB ----- //
+
+        //get all person
+        vector<Person> GetDbPersons();
 };
 
 
