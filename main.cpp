@@ -98,13 +98,15 @@ int main()
     while(true){
 
         //get user prompt
-        cout<<endl<<"Enter .scores to see high scores or enter .play to start a new game session."<<endl;
+        cout<<endl<<"Enter .scores to see high scores."<<endl;
+        cout<<"Enter .play to start a new game session."<<endl;
+        cout<<"Enter .profile to edit profile."<<endl;
         cout<<"Enter .edit to edit profile."<<endl;
         cout<<"Enter .quit to exit the program."<<endl<<endl;
         cin>>action;
 
-        //if valid action then end this loop
-        if(action == ".play" || action == ".scores" || action == ".edit"){
+        //if valid action then
+        if(action == ".play" || action == ".scores" || action == ".edit" || action == ".profile"){
 
             //show highscores
             if(action ==".scores"){
@@ -112,8 +114,15 @@ int main()
             }
 
             //edit profile
-            if(action == ".edit"){
+            else if(action == ".edit"){
                 auth.EditProfile();
+            }
+            //edit profile
+            else if(action == ".profile"){
+                auth.GetProfile();
+            }
+            else if(action == ".play"){
+
             }
         }
         //quit program
