@@ -24,11 +24,10 @@ Players::~Players(){
 //refresh players from db
 void Players::RefreshPlayers(){
 
-    //address for db
-    const string current_address = "/home/ales/Databases/sqlite/spaceinvaders/spaceInvaders.db";
+    string database_connection = Constants::GetDbConnection();
 
     //set db connection address
-    Db_Connect spaceInvaderDb(current_address);
+    Db_Connect spaceInvaderDb(database_connection);
 
     //connects to db
     bool connectedToDb = spaceInvaderDb.Connect();

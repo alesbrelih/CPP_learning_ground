@@ -2,6 +2,7 @@
 #include <iostream>
 #include "db_connect.h"
 #include "authentication.h"
+#include "constants.hpp"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ Authentication::~Authentication(){
 //check authentication method
 bool Authentication::CheckAuthentication(string username, string password){
     //address for db
-    const string current_address = "/home/ales/Databases/sqlite/spaceinvaders/spaceInvaders.db";
+    const string current_address = Constants::GetDbConnection();
 
     //set db connection address
     Db_Connect spaceInvaderDb(current_address);
