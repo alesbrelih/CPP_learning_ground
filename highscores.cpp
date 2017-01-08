@@ -18,7 +18,7 @@ void Highscores::Show(){
 
     if(connected){
 
-        cout<<"-------- HIGHSCORES ----------"<<endl;
+        cout<<endl<<"-------- HIGHSCORES ----------"<<endl<<endl;
 
         //get highscores
         vector<PersonScore> highscores = spaceInvaders.GetHighScores();
