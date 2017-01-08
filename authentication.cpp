@@ -236,10 +236,44 @@ void Authentication::EditProfile(){
     else{
         cout<<"Could not connect to DB at the moment. Please try later.";
     }
+};
 
+//get profile
+void Authentication::GetProfile(){
 
+    //db url
+    const string dbUrl = Constants::GetDbConnection();
+
+    //db connection
+    Db_Connect spaceInvadersDb(dbUrl);
+
+    //check if connected
+    bool connection = spaceInvadersDb.Connect();
+
+    //connection established
+    if(connection == true){
+
+        //get user info / refresh
+        Person user = spaceInvadersDb.GetProfile(this->GetCurrentUser().GetId());
+
+        //Set new data / info
+        this->SetCurrentUser(user);
+
+        // print user data
+        cout<<endl<<"# -- USER INFO -- #"<<endl<<endl;
+        cout<<"Name: "<<user.GetName()<<endl;
+        cout<<"Lastname: "<<user.GetLastName()<<endl;
+        cout<<"Email: "<<user.GetEmail()<<endl;
+        cout<<"Age: "<<to_string(user.GetAge())<<endl;
+        cout<<endl<<"#-----------------#"<<endl;
+
+    }
+    else{
+        cout<<"Connection to database could not be established at the moment."<<endl;
+    }
 
 };
+
 //method to check if username exists
 bool Authentication::UsernameDoesntExists(string username){
 

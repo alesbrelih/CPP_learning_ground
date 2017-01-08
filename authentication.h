@@ -31,6 +31,9 @@ class Authentication{
         //edit profile
         void EditProfile();
 
+        //get profile
+        void GetProfile();
+
         //check if username exists
         bool UsernameDoesntExists(string username);
 };

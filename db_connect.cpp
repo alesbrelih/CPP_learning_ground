@@ -346,6 +346,36 @@ void Db_Connect::RegisterAccount(Person *user){
 
 };
 
+//Get profile info
+Person Db_Connect::GetProfile(int id){
+
+    //returned person
+    Person person;
+
+    //sql statement
+    const string sql = "SELECT * FROM PERSON WHERE ID="+to_string(id)+";";
+
+    //sqlite statement
+    sqlite3_stmt *statement;
+
+    //prepare statement
+    sqlite3_prepare(this->GetDb(),sql.c_str(),-1,&statement,NULL);
+
+    //statement result
+    int statementResult = sqlite3_step(statement);
+
+    //check if valid
+    if(statementResult == SQLITE_ROW){
+        person = GetUserFromStatement(statement);
+    }
+    else{
+        cout<<"Profile info couldn't be retrieved from database at the moment."<<endl;
+    }
+
+    return person;
+
+};
+
 //Edit profile
 void Db_Connect::EditProfile(int id, string name, string lastname,string email, int age){
 

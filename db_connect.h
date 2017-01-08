@@ -64,6 +64,9 @@ class Db_Connect{
 
         //edit Profile
         void EditProfile(int id, string name, string lastname, string email, int age);
+
+        //get profile info
+        Person GetProfile(int id);
 };
 
 
