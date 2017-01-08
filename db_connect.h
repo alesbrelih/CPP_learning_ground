@@ -49,6 +49,9 @@ class Db_Connect{
 
         //check if valid authentication
         Person CheckAuthentication(string username, string password);
+
+        //get high scores
+        vector<PersonScore> GetHighScores();
 };
 
 

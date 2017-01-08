@@ -1,9 +1,5 @@
-#include "sqlite3.h"
-#include <string>
 #include "db_connect.h"
 #include <iostream>
-#include "headers/classes.h"
-#include <vector>
 
 using namespace std;
 
@@ -11,12 +7,10 @@ using namespace std;
 Person GetUserFromStatement(sqlite3_stmt *statement){
     //returned person
     Person person;
-    //get column count
 
+    //get column count
     int columnCount = sqlite3_column_count(statement);
 
-    //console log column count
-    //out<<"Column count: "<<columnCount<<endl;
 
     //for each column
     for(int i = 0; i<columnCount;i++){
@@ -44,6 +38,24 @@ Person GetUserFromStatement(sqlite3_stmt *statement){
 
 }
 
+PersonScore GetHighScoreFromStatement(sqlite3_stmt *statement){
+
+    //from SQL statement we KNOW its only 2 columns
+
+    //declare needed vars
+    string username;
+    int score;
+
+    //get vars
+    score = sqlite3_column_int(statement,0);
+    username = (char*)sqlite3_column_text(statement,1);
+
+    //create new object and return it
+    PersonScore highscore(username,score);
+
+    return highscore;
+
+}
 
 //constructor
 Db_Connect::Db_Connect(string address){
@@ -137,6 +149,51 @@ vector<Person> Db_Connect::GetDbPersons(){
 
     //return players
     return players;
+};
+
+// ---- GET HIGH SCORES ---- //
+vector<PersonScore> Db_Connect::GetHighScores(){
+
+    const string sqlString = "SELECT SCORE.SCORE, PERSON.USERNAME"
+                             " FROM SCORE JOIN PERSON ON SCORE.PERSONID = PERSON.ID"
+                             " ORDER BY SCORE.SCORE DESC LIMIT 10;";
+
+    //returned list initialization
+    vector<PersonScore> highscores;
+
+    //init sqlite3 statement
+    sqlite3_stmt *statement;
+
+    //prepare statement
+    sqlite3_prepare(this->GetDb(),sqlString.c_str(),-1,&statement,NULL);
+
+    //statement result
+    int statementResult;
+
+    //get data
+    while(true){
+
+        //get statement result
+        statementResult = sqlite3_step(statement);
+
+        if(statementResult == SQLITE_ROW){
+
+            //get highscore
+            PersonScore highscore = GetHighScoreFromStatement(statement);
+
+            //add to vector
+            highscores.push_back(highscore);
+
+        }
+        else{
+            //break infinite loop
+            break;
+        }
+    }
+    return highscores;
+
+
+
 };
 
 // CHECK AUTHENTICATION
