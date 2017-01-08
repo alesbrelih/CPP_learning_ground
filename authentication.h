@@ -21,6 +21,15 @@ class Authentication{
 
         // -- METHODS -- //
         bool CheckAuthentication(string username, string password);
+
+        //creates new account
+        void CreateAccountObject();
+
+        // register account object
+        void RegisterAccount(Person *person);
+
+        //check if username exists
+        bool UsernameDoesntExists(string username);
 };
 
 #endif // AUTHENTICATION_H_INCLUDED
