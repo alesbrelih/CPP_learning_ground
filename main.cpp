@@ -23,6 +23,10 @@ vector<Person> players;
 int main()
 {
 
+    cout<<"########################"<<endl;
+    cout<<"# -- Space Invaders -- #"<<endl;
+    cout<<"########################"<<endl<<endl;
+
     Authentication auth;
 
     string current_username;
@@ -71,8 +75,11 @@ int main()
             //if auth
             if(result == true){
                 system("clear"); //TODO: BAD CODE
+                cout<<"########################"<<endl;
+                cout<<"# -- Space Invaders -- #"<<endl;
+                cout<<"########################"<<endl<<endl;
                 cout<<"Authentication successful!"<<endl;
-                cout<<"Hello "<<current_username<<endl;
+                cout<<"Hello "<<current_username<<". "<<endl;
                 break;
             }
             else{
@@ -91,13 +98,23 @@ int main()
     while(true){
 
         //get user prompt
-        cout<<"Enter .scores to see high scores or enter .play to start a new game session."<<endl;
-        cout<<"Enter .quit to exit the program."<<endl;
+        cout<<endl<<"Enter .scores to see high scores or enter .play to start a new game session."<<endl;
+        cout<<"Enter .edit to edit profile."<<endl;
+        cout<<"Enter .quit to exit the program."<<endl<<endl;
         cin>>action;
 
         //if valid action then end this loop
-        if(action == ".play" || action == ".scores"){
-            break;
+        if(action == ".play" || action == ".scores" || action == ".edit"){
+
+            //show highscores
+            if(action ==".scores"){
+                Highscores::Show();
+            }
+
+            //edit profile
+            if(action == ".edit"){
+                auth.EditProfile();
+            }
         }
         //quit program
         else if(action == ".quit"){
@@ -106,9 +123,7 @@ int main()
 
     }
 
-    if(action ==".scores"){
-        Highscores::Show();
-    }
+
 
 
 
