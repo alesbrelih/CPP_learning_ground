@@ -57,6 +57,31 @@ PersonScore GetHighScoreFromStatement(sqlite3_stmt *statement){
 
 }
 
+int Db_Connect::GetNextId(string tablename){
+    //1. get next id
+
+    //sql string statement
+    const string sqlStatement = "SELECT MAX(ID) FROM "+tablename+";";  //TODO: CHECK WHAT IF TABLE EMPTY
+    sqlite3_stmt *statement;
+
+    //prepare
+    sqlite3_prepare(this->GetDb(),sqlStatement.c_str(),-1,&statement,NULL);
+
+    //execute statement
+    int statementResult = sqlite3_step(statement);
+
+    if(statementResult == SQLITE_ROW){
+        //get max id from returned values and increment it
+        int maxId = sqlite3_column_int(statement,0);
+        maxId++;
+
+        //return maxid
+        return maxId;
+    }
+    //error getting value from db
+    return -1;
+
+}
 //constructor
 Db_Connect::Db_Connect(string address){
     this->SetAddress(address);
@@ -68,7 +93,7 @@ Db_Connect::~Db_Connect(){
     //discconnect from db
     sqlite3_close(this->GetDb());
 
-    cout<<"Db_Connect Destroyed!"<<endl;
+    //cout<<"Db_Connect Destroyed!"<<endl;
 };
 
 //connect to db
@@ -147,6 +172,7 @@ vector<Person> Db_Connect::GetDbPersons(){
     //finalize sqlite statement
     sqlite3_finalize(sqliteStatement);
 
+    sqlite3_close(this->GetDb());
     //return players
     return players;
 };
@@ -190,6 +216,10 @@ vector<PersonScore> Db_Connect::GetHighScores(){
             break;
         }
     }
+    //finalize
+    sqlite3_finalize(statement);
+    //close connection
+    sqlite3_close(this->GetDb());
     return highscores;
 
 
@@ -222,13 +252,98 @@ Person Db_Connect::CheckAuthentication(string username, string password){
 
             //get person data from statement
             person = GetUserFromStatement(sqliteStatement);
-
-            return person;
         }
-        else {
-            return person;
-        }
+        //finalize
+        sqlite3_finalize(sqliteStatement);
+        //close db connection
+        sqlite3_close(this->GetDb());
+        return person;
     }
 };
 
+//check if username doesnt exist
+bool Db_Connect::UsernameDoesntExist(string username){
 
+    //sql statement, COLALTE NOCASE means undependant on lower or uppercase
+    const string sqlStatement = "SELECT COUNT(*) FROM PERSON WHERE "
+                                "USERNAME = '"+username+"' COLLATE NOCASE;";
+
+    //sqlite binary statement
+    sqlite3_stmt *statement;
+
+    //define sql statement
+    sqlite3_prepare(this->GetDb(),sqlStatement.c_str(),-1,&statement,NULL);
+
+    //get statement values
+    int statementResult = sqlite3_step(statement);
+
+
+
+    //check if sqlite row
+    if(statementResult == SQLITE_ROW){
+        //check returned int
+        int sqlResult = sqlite3_column_int(statement,0);
+        //if 0 == no such username in db then return true
+        if(sqlResult == 0){
+            //finalize
+            sqlite3_finalize(statement);
+
+            sqlite3_close(this->GetDb());
+            return true;
+        }
+    }
+
+    //finalize
+    sqlite3_finalize(statement);
+
+    sqlite3_close(this->GetDb());
+    //return false
+    return false;
+
+
+
+}
+
+//register account
+void Db_Connect::RegisterAccount(Person *user){
+
+    //id for the new user
+    int id = this->GetNextId("PERSON");
+    string idStr = to_string(id);
+
+    //get values
+    string username = user->GetUsername();
+    string password = user->GetPassword();
+
+    //sql string statement
+    const string sqlStatement = "INSERT INTO PERSON (ID,USERNAME,PASSWORD) VALUES ("+idStr+",'"+username+"','"+password+"');";
+
+    //binary statement
+    sqlite3_stmt *statement;
+
+    //prepare statement
+    sqlite3_prepare(this->GetDb(),sqlStatement.c_str(),-1,&statement,NULL);
+
+    //step over statement
+    int statementResult = sqlite3_step(statement);
+
+    //check if valid
+    if(statementResult == SQLITE_OK || statementResult == SQLITE_DONE){
+
+        cout<<"Account successfuly created."<<endl;
+
+    }
+    else{
+
+        cout<<"Account couldn't be created. Error connecting to DB. Please try later.";
+
+    }
+
+    //finalize
+    sqlite3_finalize(statement);
+
+    sqlite3_close(this->GetDb());
+
+
+
+}

@@ -44,6 +44,9 @@ class Db_Connect{
 
         // ---- MANIPULATING DB ----- //
 
+        //get next id
+        int GetNextId(string tablename);
+
         //get all person
         vector<Person> GetDbPersons();
 
@@ -52,6 +55,12 @@ class Db_Connect{
 
         //get high scores
         vector<PersonScore> GetHighScores();
+
+        //check if username doesnt exists alredy
+        bool UsernameDoesntExist(string username);
+
+        //register Account
+        void RegisterAccount(Person *user);
 };
 
 
