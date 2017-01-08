@@ -119,7 +119,24 @@ void Person::SetValue(string prop, string value){
             break;
 
     }
-}
+};
+
+
+// ---- PERSON SCORE INITIALIZATION ---- //
+
+//empty constructor
+PersonScore::PersonScore(){};
+
+//constructor with parameters
+PersonScore::PersonScore(string username,int score){
+    this->username = username;
+    this->score = score;
+};
+
+//destructor
+PersonScore::~PersonScore(){
+    //cout<<"Personscore destroyed!"<<endl;
+};
 
 
 

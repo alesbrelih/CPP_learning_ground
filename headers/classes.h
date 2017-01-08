@@ -51,4 +51,25 @@ class Person{
 
 };
 
+class PersonScore{
+    private:
+        string username;
+        int score;
+    public:
+        //getters
+        string GetUsername(){return username;}
+        int GetScore(){return score;}
+
+        //setters
+        void SetUsername(string username){this -> username = username;}
+        void SetScore(int score){this->score = score;}
+
+        //constructor
+        PersonScore();
+        PersonScore(string username,int score);
+
+        //destructor
+        ~PersonScore();
+};
+
 #endif // CLASSES_H_INCLUDED
