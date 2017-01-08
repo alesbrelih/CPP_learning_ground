@@ -5,121 +5,118 @@
 #include <algorithm>
 #include "sqlite3.h"
 #include "db_connect.h"
+#include "players.h"
+#include "authentication.h"
+#include <ncurses.h>
+#include "highscores.h"
 
 //namespace
 using namespace std;
 
 //address for db
-const string current_address = "/home/ales/Databases/sqlite/spaceinvaders/spaceInvaders.db";
+//const string current_address = "/home/ales/Databases/sqlite/spaceinvaders/spaceInvaders.db";
+
+vector<Person> players;
 
 
 //main fnc
 int main()
 {
-    string userInput;
 
-    //initialize list of persons
-    vector<Person> players;
+    Authentication auth;
 
-    //create persons
-    Person marjan; // no parentheses because else compiler thinks we are defining a function
-    Person ales(1,"Ales","Brelih",27,"ljiech","E7x0j225","krneki07@gmail.com");
+    string current_username;
+    char current_password[20];
 
-    //number of persons
-    cout<<"Number of persons: "<<Person::GetNumberOfPersons()<<". "<<endl;
+    while(true){
 
-    //add them to vector
-    players.push_back(marjan);
-    players.push_back(ales);
+        //current username
+        cout<<"Please insert your username / .quit to exit / .register to register an account: "<<endl;
+        cin>>current_username;
 
-    cout<<"Vector size: "<<players.size()<<endl;
+        //check if user gives up
+        if(current_username == ".quit"){
+            return 0;
+        }
 
-    //introduce each
-    //using unsigned because this iteration
-    //will always have positive iteration nubers
-    for(unsigned int i = 0;i<players.size();i++){
-        players[i].Introduce();
-    }
+        //register option
+        else if(current_username == ".register"){
 
-    cout<<"Do you wish to create a new person? [y/n]"<<endl;
-    cin>>userInput;
+            //uses authentication object to create an account
+            auth.CreateAccountObject();
 
-    //transform to lowercase
-    transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
+        }
+        else{
+            //test for pwd
+            char mesg[]="Please insert your password: ";
 
-    //user chose to create a new person
-    if(userInput == "y"){
+            //inits ncurses // TODO: DO COMPATIBLE FOR WINS
+            initscr();
 
-        //declare variables
-        string name, lastname,email;
-        int age;
+            //print please insert pwd message
+            mvprintw(0,0,mesg);
 
-        //start the console app
-        cout<<"User to be created"<<endl;
+            //no echo for pwd insert
+            noecho();
 
-        //name
-        cout<<"Please insert a name: "<<endl;
-        cin>>name;
+            //get string from input
+            getstr(current_password);
 
-        //lastname
-        cout<<"Please insert a lastname: "<<endl;
-        cin>>lastname;
+            //end ncurses
+            endwin();
 
-        //age
-        cout<<"Please insert the age: "<<endl;
-        cin>>age;
+            //check if valid auth
+            bool result = auth.CheckAuthentication(current_username,current_password);
 
-        //email
-        cout<<"Please insert email: "<<endl;
-        cin>>email;
-
-        //confirmation
-        cout<< "Is this data correct [y/n] ?: "<<endl<<name<<endl<<lastname<<endl<<age<<endl<<email<<endl;
-        cin>>userInput;
-
-        //transform input to lowercase
-        transform(userInput.begin(), userInput.end(), userInput.begin(), ::tolower);
-
-        //user wants to save data
-        if(userInput == "y"){
-
-            //create user
-            Person newUser(1,name,lastname,age,"baka","babo",email);
-
-            //add to vector
-            players.push_back(newUser);
-
-            //introduce new user
-            newUser.Introduce();
-
-            //check is user number static var was changed
-            cout<<"Number of persons: "<<Person::GetNumberOfPersons()<<endl;
-
-            //size of vector
-            cout<<"Size of vector: "<<players.size()<<endl;
+            //if auth
+            if(result == true){
+                system("clear"); //TODO: BAD CODE
+                cout<<"Authentication successful!"<<endl;
+                cout<<"Hello "<<current_username<<endl;
+                break;
+            }
+            else{
+                cout<<"Authentication failed for username: "<<current_username<<endl;
+            }
         }
 
 
+
     }
 
-    //set db connection address
-    Db_Connect spaceInvaderDb(current_address);
+    //holds what player wants to do
+    string action;
 
-    //connects to db
-    bool connectedToDb = spaceInvaderDb.Connect();
+    //get .scores or .play command
+    while(true){
 
-    if(connectedToDb){
-        cout<<"Connected to db"<<endl;
-        players = spaceInvaderDb.GetDbPersons();
+        //get user prompt
+        cout<<"Enter .scores to see high scores or enter .play to start a new game session."<<endl;
+        cout<<"Enter .quit to exit the program."<<endl;
+        cin>>action;
 
-        int players_count = players.size();
-        for(int i = 0;i<players_count;i++){
-            players[i].Introduce();
+        //if valid action then end this loop
+        if(action == ".play" || action == ".scores"){
+            break;
         }
+        //quit program
+        else if(action == ".quit"){
+            return 0;
+        }
+
+    }
+
+    if(action ==".scores"){
+        Highscores::Show();
     }
 
 
-    //marjan.Introduce();
-    //ales.Introduce();
+
+
+
+
+
+
+
     return 0;
 }
