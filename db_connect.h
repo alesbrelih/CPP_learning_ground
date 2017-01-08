@@ -46,6 +46,9 @@ class Db_Connect{
 
         //get all person
         vector<Person> GetDbPersons();
+
+        //check if valid authentication
+        Person CheckAuthentication(string username, string password);
 };
 
 

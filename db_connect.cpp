@@ -7,6 +7,44 @@
 
 using namespace std;
 
+
+Person GetUserFromStatement(sqlite3_stmt *statement){
+    //returned person
+    Person person;
+    //get column count
+
+    int columnCount = sqlite3_column_count(statement);
+
+    //console log column count
+    //out<<"Column count: "<<columnCount<<endl;
+
+    //for each column
+    for(int i = 0; i<columnCount;i++){
+
+        //check if row column has data
+        if(sqlite3_column_type(statement,i) != SQLITE_NULL){
+
+            //get value and column name
+            string result = (char*)sqlite3_column_text(statement,i);
+            string columnName = sqlite3_column_name(statement,i);
+
+
+            //cout<<"Row Name : "<<i<<" - "<<columnName<<endl;
+            //cout<<"Row result "<<i<<" - "<<result<<endl;
+
+            //set current object value
+            person.SetValue(columnName,result);
+
+
+        }
+
+    }
+
+    return person;
+
+}
+
+
 //constructor
 Db_Connect::Db_Connect(string address){
     this->SetAddress(address);
@@ -47,7 +85,10 @@ bool Db_Connect::Connect(){
 
 
 // --- MANIPULATING / READING FROM DB ---- //
+
+//GET PLAYERS FROM DB
 vector<Person> Db_Connect::GetDbPersons(){
+
 
     //returned players
     vector<Person> players;
@@ -74,35 +115,7 @@ vector<Person> Db_Connect::GetDbPersons(){
         if( stepResult == SQLITE_ROW){
 
             //ref to new person object
-            Person newPerson;
-
-            //get column count
-            int columnCount = sqlite3_column_count(sqliteStatement);
-
-            //console log column count
-            cout<<"Column count: "<<columnCount<<endl;
-
-            //for each column
-            for(int i = 0; i<columnCount;i++){
-
-                //check if row column has data
-                if(sqlite3_column_type(sqliteStatement,i) != SQLITE_NULL){
-
-                    //get value and column name
-                    string result = (char*)sqlite3_column_text(sqliteStatement,i);
-                    string columnName = sqlite3_column_name(sqliteStatement,i);
-
-
-                    //cout<<"Row Name : "<<i<<" - "<<columnName<<endl;
-                    //cout<<"Row result "<<i<<" - "<<result<<endl;
-
-                    //set current object value
-                    newPerson.SetValue(columnName,result);
-
-
-                }
-
-            }
+            Person newPerson = GetUserFromStatement(sqliteStatement);
 
             //add player to list of players
             players.push_back(newPerson);
@@ -125,3 +138,40 @@ vector<Person> Db_Connect::GetDbPersons(){
     //return players
     return players;
 };
+
+// CHECK AUTHENTICATION
+Person Db_Connect::CheckAuthentication(string username, string password){
+
+    Person person;
+
+    //check auth db string
+    const string checkAuthString = "SELECT * FROM PERSON WHERE USERNAME = '"+username+"' AND PASSWORD = '"+password+"';";
+
+    //sqlite statement with binary data
+    sqlite3_stmt *sqliteStatement;
+
+    //db result
+    int dbResult;
+
+    //prepare statement for db
+    sqlite3_prepare(this->GetDb(),checkAuthString.c_str(),-1,&sqliteStatement,NULL);
+
+    while(true){
+
+
+        dbResult = sqlite3_step(sqliteStatement);
+
+        if(dbResult == SQLITE_ROW){
+
+            //get person data from statement
+            person = GetUserFromStatement(sqliteStatement);
+
+            return person;
+        }
+        else {
+            return person;
+        }
+    }
+};
+
+
