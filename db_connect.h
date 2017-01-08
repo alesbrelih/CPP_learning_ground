@@ -61,6 +61,9 @@ class Db_Connect{
 
         //register Account
         void RegisterAccount(Person *user);
+
+        //edit Profile
+        void EditProfile(int id, string name, string lastname, string email, int age);
 };
 
 

@@ -197,6 +197,49 @@ void Authentication::RegisterAccount(Person *person){
 
 }
 
+//edit Profile Info
+void Authentication::EditProfile(){
+
+    //define variables
+    string name = "", lastname = "", email = "";
+    int age = -1;
+
+
+    //display header
+    cout<<endl<<"######################"<<endl;
+    cout<<"# -- Edit Profile -- #"<<endl;
+    cout<<"######################"<<endl<<endl;
+
+    cout<<"Enter your name: "<<endl;
+    cin>>name;
+
+    cout<<endl<<"Enter your lastname: "<<endl;
+    cin>>lastname;
+
+    cout<<endl<<"Enter your email: "<<endl;
+    cin>>email;
+
+    cout<<endl<<"Enter your age"<<endl;
+    cin>>age;
+
+    cout<<endl;
+
+    //change in db
+    const string dbUrl = Constants::GetDbConnection();
+    Db_Connect spaceInvadersDb(dbUrl);
+
+    bool connected = spaceInvadersDb.Connect();
+
+    if(connected == true){
+        spaceInvadersDb.EditProfile(this->GetCurrentUser().GetId(),name,lastname,email,age);
+    }
+    else{
+        cout<<"Could not connect to DB at the moment. Please try later.";
+    }
+
+
+
+};
 //method to check if username exists
 bool Authentication::UsernameDoesntExists(string username){
 

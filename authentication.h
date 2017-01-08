@@ -28,6 +28,9 @@ class Authentication{
         // register account object
         void RegisterAccount(Person *person);
 
+        //edit profile
+        void EditProfile();
+
         //check if username exists
         bool UsernameDoesntExists(string username);
 };

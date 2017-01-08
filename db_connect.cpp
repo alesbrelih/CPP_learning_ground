@@ -344,6 +344,41 @@ void Db_Connect::RegisterAccount(Person *user){
 
     sqlite3_close(this->GetDb());
 
+};
 
+//Edit profile
+void Db_Connect::EditProfile(int id, string name, string lastname,string email, int age){
+
+    //sql string
+    const string sql =  "UPDATE PERSON SET NAME = '"+name+"', "
+                        "LASTNAME = '"+lastname+"', "
+                        "EMAIL = '"+email+"', "
+                        "AGE = "+to_string(age)+" "
+                        "WHERE ID = "+to_string(id)+";";
+
+    //sqlite binary statement
+    sqlite3_stmt *statement;
+
+    //prepare binary statement
+    sqlite3_prepare(this->GetDb(),sql.c_str(),-1,&statement,NULL);
+
+    //execute
+    int statementResult = sqlite3_step(statement);
+
+    //check for assignment
+    if(statementResult == SQLITE_OK || statementResult == SQLITE_DONE){
+
+        cout<<endl<<"Profile updated successfuly. "<<endl;
+
+    }
+    else{
+        cout<<endl<<"Profile couldn't be updated at the moment."<<endl;
+        cout<<"Please try later"<<endl;
+    }
+
+    //finalize and close
+    sqlite3_finalize(statement);
+
+    sqlite3_close(this->GetDb());
 
 }
