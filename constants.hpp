@@ -6,6 +6,9 @@
 class Constants{
     public:
         static string GetDbConnection(){return "/home/ales/Databases/sqlite/spaceinvaders/spaceInvaders.db";}
+
+        //playground sizing
+        static int GetPlaygroundWidth(){return 10;}
 };
 
 
