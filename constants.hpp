@@ -9,6 +9,12 @@ class Constants{
 
         //playground sizing
         static int GetPlaygroundWidth(){return 10;}
+        static int GetPlaygroundWidthForArray(){
+
+            int playgroundWidth = GetPlaygroundWidth();
+            return playgroundWidth-1;
+
+        }
 };
 
 
