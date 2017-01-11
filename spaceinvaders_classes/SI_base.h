@@ -8,6 +8,13 @@
 
 using namespace std;
 
+//alien direction enum
+enum AlienDirection{
+    Left,
+    Right
+};
+
+//space invader base class
 class SI_base{
 
     //privates
