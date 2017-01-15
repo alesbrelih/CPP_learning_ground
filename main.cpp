@@ -9,6 +9,7 @@
 #include "authentication.h"
 #include <ncurses.h>
 #include "highscores.h"
+#include "game_session.h"
 
 //namespace
 using namespace std;
@@ -66,6 +67,9 @@ int main()
             //get string from input
             getstr(current_password);
 
+            //clear console
+            clear();
+
             //end ncurses
             endwin();
 
@@ -90,6 +94,12 @@ int main()
 
 
     }
+
+
+    //get player
+    Person current_user = auth.GetCurrentUser();
+    //initialize game session
+    Game_Session session(current_user);
 
     //holds what player wants to do
     string action;
@@ -123,6 +133,8 @@ int main()
             }
             else if(action == ".play"){
 
+                session.NewGame();
+
             }
         }
         //quit program
@@ -131,15 +143,6 @@ int main()
         }
 
     }
-
-
-
-
-
-
-
-
-
 
 
     return 0;
