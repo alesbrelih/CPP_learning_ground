@@ -6,9 +6,6 @@ AliensController::AliensController(AlienMissilesController *alienMissilesControl
     //initialize aliens
     this->InitializeAliens();
 
-    //create unique lock
-    this->lock = new unique_lock<mutex>(this->aliens_lock,defer_lock);
-
     // set alienMissiles controller ref
     this->alienMissilesController = alienMissilesController;
 
@@ -32,7 +29,7 @@ void AliensController::InitializeAliens(){
     int alienYnumber = Constants::GetNumberOfRowsForAliens();
 
     //difference in width
-    int diff = Constants::GetPlaygroundWidth()-Constants::GetNumberOfAliensInRow();
+    int diff = Constants::GetPlaygroundWidth() - Constants::GetNumberOfAliensInRow();
 
     //number of rows
     for(int y = 1; y<=alienYnumber; y++){
@@ -49,7 +46,8 @@ void AliensController::InitializeAliens(){
 //move aliens
 void AliensController::MoveAliens(bool &gameRunning){
 
-
+    //set unique lock
+    unique_lock<mutex> lock(this->aliens_lock,defer_lock);
 
      //current game direction
     AlienDirection gameDirection = Left;
@@ -64,8 +62,8 @@ void AliensController::MoveAliens(bool &gameRunning){
         //lock aliens
         //unique_lock<mutex> lock(this->aliens_lock,defer_lock);
 
-        //lock.lock();
-        this->LockMutex();
+        lock.lock();
+
 
 
 
@@ -100,8 +98,7 @@ void AliensController::MoveAliens(bool &gameRunning){
         }
 
         //unlock
-        //lock.unlock();
-        this->UnlockMutex();
+        lock.unlock();
         //sleep thread
         //usleep(Constants::GetAlienSleep());
         this_thread::sleep_for(chrono::milliseconds(Constants::GetAlienSleep()));
@@ -132,8 +129,6 @@ void AliensController::DrawAliens(){
 //check if alien hit
 bool AliensController::CheckIfAlienHit(SI_shipMissile *missile){
 
-    this->LockMutex();
-
     //get number of aliens still there
     int alienNumber = this->aliens->size();
 
@@ -148,31 +143,19 @@ bool AliensController::CheckIfAlienHit(SI_shipMissile *missile){
 
             this->aliens->erase(this->aliens->begin()+i); //remove alien for array
 
-            this->UnlockMutex();
+
 
             return true; //There should beonly 1 alien at that location
         }
 
     }
 
-    this->UnlockMutex();
+
     //return false because no aliens were matching coords
     return false;
 
 };
 
-//lock mutex
-void AliensController::LockMutex(){
-
-    this->lock->lock();
-
-};
-
-void AliensController::UnlockMutex(){
-
-    this->lock->unlock();
-
-};
 
 //unlock mutex
 

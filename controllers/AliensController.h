@@ -21,10 +21,6 @@ class AliensController{
     private:
         //mutex lock
         mutex aliens_lock;
-        mutex move_lock;
-
-        //unique lock
-        unique_lock<mutex> *lock = NULL;
 
         //vector aliens
         vector<SI_alien> *aliens = new vector<SI_alien>;
@@ -34,10 +30,7 @@ class AliensController{
 
     public:
 
-        //get reference to aliens mutex
-        void LockMutex();
-
-        void UnlockMutex();
+        mutex* GetAlienMutexRef(){return &aliens_lock;}
 
         //initialize aliens
         void InitializeAliens();
