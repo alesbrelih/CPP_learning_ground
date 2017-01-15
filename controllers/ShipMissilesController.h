@@ -6,6 +6,8 @@
 #include <deque>
 #include "../spaceinvaders_classes/SI_shipMissile.h"
 #include "AliensController.h"
+#include <future>
+
 
 using namespace std;
 
@@ -37,7 +39,7 @@ class ShipMissilesController{
     public:
 
         //constructor
-        ShipMissilesController();
+        ShipMissilesController(AliensController *aliensController);
 
         //destructor
         ~ShipMissilesController();

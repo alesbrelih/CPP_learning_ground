@@ -41,9 +41,10 @@ void ShipMissilesController::RemoveMissiles(deque<SI_shipMissile> outmissiles){
 // ---- DEFINE ---- //
 
 //constructor
-ShipMissilesController::ShipMissilesController(){
+ShipMissilesController::ShipMissilesController(AliensController *aliensController){
 
     cout<<"Ship missiles controller object created!"<<endl;
+    this->aliensController = aliensController;
 
 };
 
@@ -89,6 +90,9 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
     //create lock mutex for missiles
     unique_lock<mutex> lock(this->missiles_lock,defer_lock);
 
+    mutex* aliens_mutex = this->aliensController->GetAlienMutexRef();
+
+    unique_lock<mutex> lockAliens(*aliens_mutex,defer_lock);
 
     //ame running flag
     while(gameRunning == true){
@@ -104,8 +108,7 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
         //lock mutex
         lock.lock();
 
-        //this->aliensController->LockMutex();
-
+        lockAliens.lock();
 
         //size of missiles
         int currentMissilesCount = this->shipMissiles->size();
@@ -121,8 +124,7 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
 
             //check if hit alien
 
-            bool alienHit = (this->aliensController->CheckIfAlienHit(missile));
-
+            bool alienHit = this->aliensController->CheckIfAlienHit(missile);
             if(alienHit == true){
 
                 //alien was hit -> add missle to hit allien missiles
@@ -159,6 +161,8 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
 
         //unlock before sleep
         lock.unlock();
+
+        lockAliens.unlock();
 
         //this->aliensController->UnlockMutex();
 
