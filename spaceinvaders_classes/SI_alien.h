@@ -3,6 +3,8 @@
 
 #include "SI_base.h"
 #include "../constants.hpp"
+#include "../controllers/AlienMissilesController.h"
+#include <cstdlib>
 
 class SI_alien:public SI_base{
 
@@ -16,10 +18,13 @@ class SI_alien:public SI_base{
         // -- method -- //
 
         //check if at border
-        void CheckIfAtBorder(AlienDirection current, AlienDirection *game);
+        void CheckIfAtBorder(AlienDirection current, AlienDirection *game, bool &nextrow, bool &gameRunning);
 
         //move method
-        void Move(AlienDirection current);
+        void Move(AlienDirection current, bool nextrow);
+
+        //shoot missile
+        void Shoot(AlienMissilesController *alienMissilesController);
 };
 
 

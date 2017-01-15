@@ -5,61 +5,94 @@ SI_alien::SI_alien(signed int x, signed int y):SI_base(x,y){};
 
 //destructor
 SI_alien::~SI_alien(){
-    cout<<"Alien object destroyed!"<<endl;
+    //cout<<"Alien object destroyed!"<<endl;
 };
 
 //methods
-void SI_alien::CheckIfAtBorder(AlienDirection current, AlienDirection *game){
+void SI_alien::CheckIfAtBorder(AlienDirection current, AlienDirection *gamedirection, bool &nextrow, bool &gameRunning){
 
-    //if current direction is left
-    if(current == Left){
+    //if reached bottom corner then ame over
+    if(this->GetY()==Constants::GetPlaygroundHeight()){
 
-        //check if alient object didnt move to 0
-        if(this->GetX() == 0){
+        gameRunning = false;
 
-            //change direction to right
-            *game = Right;
+    }
+    else{
+
+        //if current direction is left
+        if(current == Left){
+
+            //check if alient object didnt move to 0
+            if(this->GetX() == 1){
+
+                //change direction to right
+                *gamedirection = Right;
+
+                //move to next row
+                nextrow = true;
+
+            }
 
         }
 
-    }
+        //if current direction is right
+        else if(current == Right){
 
-    //if current direction is right
-    else if(current == Right){
+            //check if x was changed to max of array
+            if(this->GetX() == (Constants::GetPlaygroundWidthForArray()-1)){
 
-        //check if x was changed to max of array
-        if(this->GetX() == Constants::GetPlaygroundWidthForArray()){
+                //change direction
+                *gamedirection = Left;
 
-            //change direction
-            *game = Left;
-
+                //move to next row
+                nextrow = true;
+            }
         }
-
     }
-
 };
 
 //move method
-void SI_alien::Move(AlienDirection current){
+void SI_alien::Move(AlienDirection current, bool nextrow){
 
-    //if current alient direction is left then reduce X value by 1
-    if(current == Left){
+    //if next row == true then move y
+    if(nextrow == true){
 
-        int newX = this->GetX();
-        newX++;
-
-        this->SetX(newX);
+        //increase y coord
+        int newY = this->GetY();
+        this->SetY(newY+1);
 
     }
+    else{ //not at end of row
 
-    //if current alien direction is right then increase X value by 1
-    else if(current == Right){
+        //if current alient direction is left then reduce X value by 1
+        if(current == Left){
+            int newX = this->GetX();
 
-        int newX = this->GetX();
-        newX--;
+            this->SetX(newX-1);
+        }
+        //if current alien direction is right then increase X value by 1
+        else if(current == Right){
 
-        this->SetX(newX);
+            int newX = this->GetX();
 
+            this->SetX(newX+1);
+        }
+    }
+};
+
+//shoot missile
+void SI_alien::Shoot(AlienMissilesController *alienMissilesController){
+
+    //random number from 1 - 100
+    int randNumber = rand()%100+1;
+
+    //alien chance to shoot
+    int chanceToShoot = Constants::GetAlienChanceToShoot();
+
+    //if value under the chance to shoot - atm 20 ->1/5 chance to shoot
+    if(randNumber<=chanceToShoot){
+
+        alienMissilesController->AddMissile(this->GetX(),this->GetY());
     }
 
 };
