@@ -33,17 +33,11 @@ void SI_ship::MoveLeft(){
 //move right
 void SI_ship::MoveRight(){
 
-    //check if not max already
-    int maxX = Constants::GetPlaygroundWidth();
-
-    //array starts with 0 index
-    int arrayMaxX = maxX--;
-
     //current x
     int currentX = this->GetX();
 
     //ship not at end
-    if(currentX < arrayMaxX){
+    if(currentX < Constants::GetPlaygroundWidth()){
 
         //increase current x
         currentX++;

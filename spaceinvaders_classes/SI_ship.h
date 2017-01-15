@@ -7,22 +7,23 @@
 //ship is a subclass of SI base
 class SI_ship : public SI_base{
 
-    // --- constructor --- //
-    SI_ship(signed int x, signed int y);
+    public:
+        // --- constructor --- //
+        SI_ship(signed int x, signed int y);
 
-    // --- destructor --- //
-    ~SI_ship();
+        // --- destructor --- //
+        ~SI_ship();
 
 
-    // --- METHODS ---- //
+        // --- METHODS ---- //
 
-    //move left
-    void MoveLeft();
+        //move left
+        void MoveLeft();
 
-    //move right
-    void MoveRight();
+        //move right
+        void MoveRight();
 
-    //------------------//
+        //------------------//
 
 };
 
