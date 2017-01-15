@@ -5,6 +5,8 @@
 
 //include input output for console
 #include <iostream>
+#include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -22,6 +24,8 @@ class SI_base{
         signed int x;
         signed int y;
 
+
+
     //publics
     public:
 
@@ -31,6 +35,7 @@ class SI_base{
 
         //y
         signed int GetY(){return this->y;}
+
 
         // --------------- //
 

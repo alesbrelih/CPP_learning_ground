@@ -8,5 +8,7 @@ SI_base::SI_base(signed int x, signed int y){
 
 //define destructor
 SI_base::~SI_base(){
-    cout<<"SI_base destroyed"<<endl;
+    //cout<<"SI_base destroyed"<<endl;
 };
+
+
