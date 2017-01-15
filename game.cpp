@@ -36,7 +36,7 @@ Game::Game(){
 
     this->aliensController = new AliensController(this->alienMissilesController);
 
-    this->shipMissilesController = new ShipMissilesController();
+    this->shipMissilesController = new ShipMissilesController(this->aliensController);
 
     this->shipController = new ShipController(this->shipMissilesController);
 
