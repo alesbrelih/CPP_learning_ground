@@ -4,6 +4,7 @@
 #include "headers/classes.h"
 #include <vector>
 #include <iostream>
+#include "game.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ class Game_Session{
     private:
         Person player;
         vector<int> scores;
+
     public:
         //setter for player
         void SetPlayer(Person current){player = current;}
@@ -33,6 +35,9 @@ class Game_Session{
 
         //saves score to db
         void SaveScore(int score);
+
+        //newgame
+        void NewGame();
 };
 
 

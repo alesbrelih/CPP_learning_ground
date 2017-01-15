@@ -29,3 +29,11 @@ void Game_Session::SaveScore(int score){
 
 };
 
+//starts new game
+void Game_Session::NewGame(){
+
+    Game *game = new Game();
+    game->GameStart();
+
+}
+
