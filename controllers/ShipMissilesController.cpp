@@ -129,7 +129,7 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
                 hitAlien.push_back(*missile);
 
             }
-            else{ //redundant to check if border hit once alien was hit -> better performance
+            else{ //redundant to check if border hit once alien was hit
 
                 //check if border hit
                 int borderHit = missile->CheckIfHitBorder();
