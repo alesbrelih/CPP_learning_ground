@@ -69,6 +69,9 @@ class Game{
         //game ended
         void GameEnded();
 
+        //get game score
+        int GetScore();
+
 
 
 

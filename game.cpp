@@ -37,13 +37,17 @@ Game::Game(){
 
     this->shipMissilesController = new ShipMissilesController(this->aliensController,this->score);
 
-    this->shipController = new ShipController(this->shipMissilesController);
+    this->shipController = new ShipController(this->shipMissilesController,this->alienMissilesController);
 
 };
 
 Game::~Game(){
 
     cout<<"Game object destroyed!"<<endl;
+    delete this->alienMissilesController;
+    delete this->aliensController;
+    delete this->shipController;
+    delete this->shipMissilesController;
 
 };
 
@@ -131,5 +135,11 @@ void Game::PrintGame(){
 
 };
 
-//move aliens
+//get game score once finished
+int Game::GetScore(){
+
+    return this->score;
+
+
+}
 
