@@ -89,7 +89,7 @@ void AliensController::MoveAliens(bool &gameRunning){
             alien->CheckIfAtBorder(currentDirection,&gameDirection,nextrowRef,gameRunning);
 
             //try to shoot
-            alien->Shoot(this->alienMissilesController);
+            this->AlienShoot(alien);
         }
 
         //if moved to next row this iteration then set it to false
@@ -102,6 +102,22 @@ void AliensController::MoveAliens(bool &gameRunning){
         //sleep thread
         //usleep(Constants::GetAlienSleep());
         this_thread::sleep_for(chrono::milliseconds(Constants::GetAlienSleep()));
+    }
+
+};
+
+void AliensController::AlienShoot(SI_alien *alien){
+
+    //random number from 1 - 100
+    int randNumber = rand()%100+1;
+
+    //alien chance to shoot
+    int chanceToShoot = Constants::GetAlienChanceToShoot();
+
+    //if value under the chance to shoot - atm 20 ->1/5 chance to shoot
+    if(randNumber<=chanceToShoot){
+
+        this->alienMissilesController->AddMissile(alien->GetX(),alien->GetY());
     }
 
 };
@@ -142,8 +158,6 @@ bool AliensController::CheckIfAlienHit(SI_shipMissile *missile){
         if(alien.GetX()== missile->GetX() && alien.GetY() == missile->GetY()){
 
             this->aliens->erase(this->aliens->begin()+i); //remove alien for array
-
-
 
             return true; //There should beonly 1 alien at that location
         }

@@ -44,6 +44,9 @@ class AliensController{
         //check if hit alien with shipMissile
         bool CheckIfAlienHit(SI_shipMissile *missile);
 
+        //alien shoot
+        void AlienShoot(SI_alien *alien);
+
         //constructor
         AliensController(AlienMissilesController *alienMissilesController);
 
