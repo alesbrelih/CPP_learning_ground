@@ -33,13 +33,15 @@ class ShipMissilesController{
         //ref to aliensController
         AliensController *aliensController = NULL;
 
+        int *score = NULL;
+
 
     //public
 
     public:
 
         //constructor
-        ShipMissilesController(AliensController *aliensController);
+        ShipMissilesController(AliensController *aliensController, int &score);
 
         //destructor
         ~ShipMissilesController();

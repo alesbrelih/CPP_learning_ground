@@ -41,10 +41,11 @@ void ShipMissilesController::RemoveMissiles(deque<SI_shipMissile> outmissiles){
 // ---- DEFINE ---- //
 
 //constructor
-ShipMissilesController::ShipMissilesController(AliensController *aliensController){
+ShipMissilesController::ShipMissilesController(AliensController *aliensController, int &score){
 
     cout<<"Ship missiles controller object created!"<<endl;
     this->aliensController = aliensController;
+    this->score = &score;
 
 };
 
@@ -154,7 +155,19 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
 
         if(hitAlien.size()>0){
 
+            //calculate score new
+            //previous score
+            int newScore = *(this->score);
+
+            //increase by number of hit aliens
+            int currentPoints = (hitAlien.size()*Constants::GetAlienValue());
+            *(this->score) = newScore+currentPoints;
+
+            //remove aliens
             this->RemoveMissiles(hitAlien);
+
+
+
 
         }
 
