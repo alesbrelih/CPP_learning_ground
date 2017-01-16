@@ -29,14 +29,13 @@ void MoveShipMissiles(ShipMissilesController *shipMissilesController,bool &gameR
 //constructor
 Game::Game(){
 
-    //set score to 0
-    this->score = 0;
+
 
     this->alienMissilesController = new AlienMissilesController();
 
     this->aliensController = new AliensController(this->alienMissilesController);
 
-    this->shipMissilesController = new ShipMissilesController(this->aliensController);
+    this->shipMissilesController = new ShipMissilesController(this->aliensController,this->score);
 
     this->shipController = new ShipController(this->shipMissilesController);
 
@@ -122,6 +121,12 @@ void Game::PrintGame(){
         }
 
     }
+
+    //this score
+
+    string currentScoreString = "CurrentScore: "+to_string(this->score);
+    mvprintw(Constants::GetPlaygroundHeightWithContainers()+1,1,currentScoreString.c_str());
+    mvprintw(Constants::GetPlaygroundHeightWithContainers()+3,0,"#---------------------------#");
 
 
 };

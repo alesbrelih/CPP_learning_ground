@@ -26,7 +26,7 @@ class Game{
     //privates
     private:
         //score
-        signed int score;
+        int score = 0;
 
         //game objects
 
@@ -51,9 +51,6 @@ class Game{
 
         //ship
         ShipController* GetShipController(){return this->shipController;}
-
-        //getscore
-        int * GetScore(){return &(this->score);}
 
         //constructor
         Game();
