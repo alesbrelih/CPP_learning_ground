@@ -17,8 +17,7 @@ Game_Session::~Game_Session(){
 void Game_Session::AddScore(int score){
 
     //pushes score to scores
-    vector<int> scores = this->GetScores();
-    scores.push_back(score);
+    this->scores.push_back(score);
 
 };
 
@@ -32,8 +31,29 @@ void Game_Session::SaveScore(int score){
 //starts new game
 void Game_Session::NewGame(){
 
-    Game *game = new Game();
-    game->GameStart();
+    Game game;
+    game.GameStart();
+    this->AddScore(game.GetScore());
 
-}
+};
+
+
+//console logs all session scores
+void Game_Session::GetScoresOutput(){
+
+    int sessions = this->scores.size();
+
+    //cosmetics
+    cout<<endl<<"# --- Session Scores --- #"<<endl<<endl;
+
+    //print every score
+    for(int i = 0;i<sessions;i++){
+
+        cout<<"Game "<<i<<" : "<<this->scores[i]<<endl;
+
+    }
+
+    cout<<endl<<"# --- -------------------#"<<endl<<endl;
+
+};
 

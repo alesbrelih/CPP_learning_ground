@@ -24,6 +24,9 @@ class Game_Session{
         //get scores vector
         vector<int> GetScores(){return scores;}
 
+        //get scores output to console
+        void GetScoresOutput();
+
         //constructor
         Game_Session(Person player);
 
