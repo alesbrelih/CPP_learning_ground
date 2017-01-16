@@ -16,7 +16,7 @@ SI_alienMissile::~SI_alienMissile(){
 bool SI_alienMissile::CheckIfHitBorder(){
 
     //check if hit border
-    if(this->GetY() >= Constants::GetPlaygroundHeightWithContainers()-1){
+    if(this->GetY() >= Constants::GetPlaygroundHeight()+1){
         return true;
     }
 
@@ -43,9 +43,9 @@ void SI_alienMissile::MoveMissile(){
 
         //new y
         int newY = this->GetY();
-        int maxY = Constants::GetPlaygroundHeight();
+        int maxY = Constants::GetPlaygroundHeight()+1;
 
-        if(newY <= maxY){
+        if(newY < maxY){
 
             //set new Y
             this->SetY(newY+1);
