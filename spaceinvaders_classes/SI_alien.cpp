@@ -80,19 +80,3 @@ void SI_alien::Move(AlienDirection current, bool nextrow){
     }
 };
 
-//shoot missile
-void SI_alien::Shoot(AlienMissilesController *alienMissilesController){
-
-    //random number from 1 - 100
-    int randNumber = rand()%100+1;
-
-    //alien chance to shoot
-    int chanceToShoot = Constants::GetAlienChanceToShoot();
-
-    //if value under the chance to shoot - atm 20 ->1/5 chance to shoot
-    if(randNumber<=chanceToShoot){
-
-        alienMissilesController->AddMissile(this->GetX(),this->GetY());
-    }
-
-};
