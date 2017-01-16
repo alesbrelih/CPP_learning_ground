@@ -22,6 +22,9 @@ class Constants{
         const static int shipSleep = 200;
         const static int shipMissilesSleep = 300;
 
+        //alien value
+        const static int alienValue = 50;
+
         //chance to shoot for aliens
         const static int alienChanceToShoot = 2;
 
@@ -53,6 +56,9 @@ class Constants{
         static int GetShipSleep(){return shipSleep;}
         static int GetShipMissilesSleep(){return shipMissilesSleep;}
         static int GetAlienChanceToShoot(){return alienChanceToShoot;}
+
+        //get alien value
+        static int GetAlienValue(){return alienValue;}
 };
 
 
