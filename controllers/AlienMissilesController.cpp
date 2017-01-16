@@ -9,8 +9,7 @@ bool operator== ( const SI_alienMissile &m1, const SI_alienMissile &m2)
 AlienMissilesController::AlienMissilesController(){
 
     cout<<"Alien missiles controller created!"<<endl;
-    this->alienMissiles;
-    cout<<"Alien missiles controller created!"<<endl;
+
 };
 
 //destructor
@@ -153,6 +152,34 @@ void AlienMissilesController::DrawMissiles(){
 
     }
 
+
+
+};
+
+//check if ship was hit
+bool AlienMissilesController::CheckIfHitShip(int x, int y){
+
+    //lockguard mutex
+    lock_guard<mutex> lockable(this->lock_missiles_array);
+
+    //number of alien missiles in array
+    int missilesCount = this->alienMissiles->size();
+
+    //foreach missiles
+    for(int i = 0;i<missilesCount;i++){
+
+        //missile ref
+        SI_alienMissile *missile = &(this->alienMissiles->at(i));
+        if(missile->GetX() == x && missile->GetY() == y){
+
+            //return that ship was hit
+            return true;
+
+        }
+
+    }
+    //ship wasnt hit
+    return false;
 
 
 };

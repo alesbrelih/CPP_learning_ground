@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <deque>
 
+
 using namespace std;
 
 // ----------------------------- //
@@ -54,6 +55,9 @@ class AlienMissilesController{
 
         //add new missile to array
         void AddMissile(signed int x, signed int y);
+
+        //checks if any missile at ship location
+        bool CheckIfHitShip(int x, int y);
 
 
 };
