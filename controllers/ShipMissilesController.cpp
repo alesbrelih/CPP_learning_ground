@@ -166,11 +166,7 @@ void ShipMissilesController::MoveMissiles(bool &gameRunning){
             //remove aliens
             this->RemoveMissiles(hitAlien);
 
-
-
-
         }
-
 
         //unlock before sleep
         lock.unlock();
