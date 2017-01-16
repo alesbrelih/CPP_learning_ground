@@ -116,13 +116,19 @@ int main()
         cin>>action;
 
         //if valid action then
-        if(action == ".play" || action == ".scores" || action == ".edit" || action == ".profile"){
+        if(action == ".play" || action == ".scores" || action == ".edit" || action == ".profile" || action == ".session"){
 
             //show highscores
             if(action ==".scores"){
                 Highscores::Show();
             }
+            //session scores
+            else if(action == ".session"){
 
+                //call session method
+                session.GetScoresOutput();
+
+            }
             //edit profile
             else if(action == ".edit"){
                 auth.EditProfile();
