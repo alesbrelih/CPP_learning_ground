@@ -6,6 +6,7 @@
 #include <thread>
 #include <ncurses.h>
 #include "ShipMissilesController.h"
+#include "AlienMissilesController.h"
 
 using namespace std;
 
@@ -24,13 +25,16 @@ class ShipController{
         //ship missiles controller
         ShipMissilesController *shipMissilesController = NULL;
 
+        //alien missiles controller
+        AlienMissilesController *alienMissilesController = NULL;
+
         //mutex
         mutex lock_ship;
 
     public:
 
         //contructor
-        ShipController(ShipMissilesController *shipMissController);
+        ShipController(ShipMissilesController *shipMissController, AlienMissilesController *alienMisController);
 
         //destructor
         ~ShipController();

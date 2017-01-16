@@ -1,7 +1,7 @@
 #include "ShipController.h"
 
 //define constructor
-ShipController::ShipController(ShipMissilesController *shipMisController){
+ShipController::ShipController(ShipMissilesController *shipMisController,AlienMissilesController *alienMisController){
 
     //place it at middle
     int xCoord = Constants::GetPlaygroundWidth()/2;
@@ -12,6 +12,9 @@ ShipController::ShipController(ShipMissilesController *shipMisController){
 
     //set ship missiles controller
     this->shipMissilesController = shipMisController;
+
+    //set alien missiles controller
+    this->alienMissilesController = alienMisController;
 
 
 };
@@ -35,13 +38,23 @@ void ShipController::MoveShip(bool &gameRunning){
         //lock mutex
         lock.lock();
 
-        //move ship
+        //check if ship was hit
+        bool shipHit = this->alienMissilesController->CheckIfHitShip(this->ship->GetX(),this->ship->GetY());
 
-        //currently pressed key
-        int pressed_key = getch();
+        if(shipHit){
 
-        //if a key was pressed
-        if(pressed_key != ERR){
+            gameRunning = false;
+
+        }
+        else{
+
+            //move ship
+
+            //currently pressed key
+            int pressed_key = getch();
+
+            //if a key was pressed
+            if(pressed_key != ERR){
 
 
             //move left
@@ -65,6 +78,10 @@ void ShipController::MoveShip(bool &gameRunning){
                 this->shipMissilesController->AddMissile(this->ship->GetX());
 
             }
+
+        }
+
+
         }
 
         //unlock before sleep
